@@ -1,0 +1,2 @@
+curl -u d42ac631b8d10a866ea40408e01cd5d3:GTb2bgU2OJuv1w_z0pxVSvYDLUU6f-v5kawXTs4- https://api.ravelry.com/current_user.json
+curl -u d42ac631b8d10a866ea40408e01cd5d3:GTb2bgU2OJuv1w_z0pxVSvYDLUU6f-v5kawXTs4- https://api.ravelry.com/fiber_attributes.json
