@@ -14,8 +14,7 @@ namespace RavelryAPI
         static async Task Main(string[] args)
         {
             string endpoint = "fiber_attributes";
-            RavelryRequest ravRequest = new RavelryRequest();
-            string requestResultString = await ravRequest.GetRequest(endpoint);
+            RavelryRequest ravRequest = new RavelryRequest(endpoint);
 
             List<FiberAttribute> x = await ravRequest.ParseToFiberAttributesAsync();
 
@@ -29,10 +28,17 @@ namespace RavelryAPI
         readonly string privateUsername = "d42ac631b8d10a866ea40408e01cd5d3";
         readonly string privatePassword = "GTb2bgU2OJuv1w_z0pxVSvYDLUU6f-v5kawXTs4-";
 
-        public async Task<string> GetRequest(string endpoint)
+        public string Endpoint { get; set; }
+
+        public RavelryRequest(string endpoint)
+        {
+            Endpoint = endpoint;
+        }
+
+        public async Task<string> GetRequest()
         {
             using var httpClient = new HttpClient();
-            string requestURI = baseUrl + endpoint + ".json";
+            string requestURI = baseUrl + Endpoint + ".json";
             using var request = new HttpRequestMessage(new HttpMethod("GET"), requestURI);
             var creds = String.Format("{0}:{1}", privateUsername, privatePassword);
             var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes(creds));
@@ -45,7 +51,7 @@ namespace RavelryAPI
         public async Task<List<FiberAttribute>> ParseToFiberAttributesAsync()
         {
             string endpoint = "fiber_attributes";
-            string requestResultString = await GetRequest(endpoint);
+            string requestResultString = await GetRequest();
 
             var attributes = new List<FiberAttribute>();
             JEnumerable<JToken> results = JObject.Parse(requestResultString)[endpoint].Children();
